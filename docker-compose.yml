@@ -1,26 +1,47 @@
-version: "3.9"
-
 services:
   ollama:
     image: ollama/ollama
     container_name: ollama
     ports:
-      - "8080:8080"
+      - "11434:11434"
     volumes:
       - ollama:/root/.ollama
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      timeout: 3s
+      retries: 3
+
+  ollama-pull:
+    image: ollama/ollama
+    container_name: ollama-pull
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    volumes:
+      - ollama:/root/.ollama
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: /bin/bash
+    command: -c "ollama pull ${MODEL_NAME:-llama3.2:3b}"
+    restart: "no"
 
   paper-mate:
     build: .
     environment:
-      - OLLAMA_BASE_URL=http://ollama:8080
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - MODEL_NAME=${MODEL_NAME:-llama3.2:latest}
     depends_on:
-      - ollama
+      ollama-pull:
+        condition: service_completed_successfully
     volumes:
-      - .:/app
-    command: python src/main.py
+      - ./src:/app/src
+      - ./vector_store:/app/vector_store
+      - uv_cache:/root/.cache/uv
+    command: python -m src.gradio_app
     ports:
       - "8000:8000"
 
 volumes:
+  uv_cache:
   ollama:

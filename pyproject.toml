@@ -3,5 +3,14 @@ name = "paper-mate"
 version = "0.1.0"
 description = "Paper-Mate - your personal assistant for exploring arXiv papers"
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = []
+requires-python = ">=3.10"
+dependencies = [
+    "datasets>=4.3.0",
+    "faiss-cpu>=1.12.0",
+    "gradio>=5.49.1",
+    "langchain>=1.0.2",
+    "langchain-community>=0.4.1",
+    "langchain-ollama>=1.0.0",
+    "pydantic-settings>=2.11.0",
+    "sentence-transformers>=5.1.2",
+]

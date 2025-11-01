@@ -1,8 +1,11 @@
-FROM python:3.13-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install uv
 
-COPY . .
+COPY requirements.txt .
+# RUN pip install -r requirements.txt
+RUN uv pip install --system --cache-dir /root/.cache/uv --index-strategy unsafe-best-match -r requirements.txt
+
+COPY src ./src
