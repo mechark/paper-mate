@@ -35,7 +35,7 @@ class ArxivRetriever(BaseRetriever):
             )
             documents = loader.load()
 
-            splitter = splitter = SentenceTransformersTokenTextSplitter(
+            splitter = SentenceTransformersTokenTextSplitter(
                 model_name="sentence-transformers/all-MiniLM-L6-v2",
                 chunk_size=128,
                 chunk_overlap=20
@@ -49,7 +49,7 @@ class ArxivRetriever(BaseRetriever):
             self._vectorstore.docstore._dict.values()
         )
 
-    def _get_relevant_documents(self, query: str) -> list[Document]:
+    def _get_relevant_documents(self, query: str):
         """
         Retrieve relevant documents using Reciprocal Rank Fusion of dense and sparse retrieval.
         """
