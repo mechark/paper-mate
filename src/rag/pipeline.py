@@ -24,17 +24,22 @@ def create_context(docs) -> str:
 def answer_question(question: str) -> str:
     """Answer a question using retrieved and reranked documents."""
     # Retrieve more documents than needed for reranking
-    retriever.k = settings.RETRIEVER_K_BEFORE_RERANK
-    results = retriever.invoke(question)
+    try:
+        retriever.k = settings.RETRIEVER_K_BEFORE_RERANK
+        results = retriever.invoke(question)
 
-    # Rerank and get top k
-    reranked_results = reranker.rerank_documents(
-        question, results, top_k=settings.RETRIEVER_K_AFTER_RERANK
-    )
+        # Rerank and get top k
+        reranked_results = reranker.rerank_documents(
+            question, results, top_k=settings.RETRIEVER_K_AFTER_RERANK
+        )
 
-    context = create_context(reranked_results)
-    logging.info(f"Constructed context for LLM: {context}")
-    chain = get_chain()
+        context = create_context(reranked_results)
+        logging.info(f"Constructed context for LLM: {context}")
+        chain = get_chain()
 
-    response = chain.invoke({"context": context, "question": question})
+        response = chain.invoke({"context": context, "question": question})
+    except Exception as e:
+        logging.error(f"Error occurred while answering question: {e}")
+        response = "Sorry, exception occurred while processing your request. See logs for details."
+
     return response

@@ -38,7 +38,7 @@ class ArxivRetriever(BaseRetriever):
             splitter = SentenceTransformersTokenTextSplitter(
                 model_name="sentence-transformers/all-MiniLM-L6-v2",
                 chunk_size=128,
-                chunk_overlap=20
+                chunk_overlap=20,
             )
             self._documents = splitter.split_documents(documents)
 
