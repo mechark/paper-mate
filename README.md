@@ -15,7 +15,7 @@ git clone https://github.com/mechark/paper-mate.git
 cd paper-mate
 ```
 
-3. Place the  ``vector_store`` directory inside the  ``/paper-mate``
+3. Place the  ``vector_store`` directory inside the  ``/paper-mate``. Download vector_store <a href="https://drive.google.com/uc?export=download&id=1LhkfxMzpbhNNz0OLPt31nb8NYR0lekGB">here</a>
 4. Make sure Docker Engine is running, then build and start the containers:
 
 ```bash
