@@ -4,6 +4,7 @@ from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from src.core.config import settings
 from langchain_community.vectorstores import FAISS
 import os
 import logging
@@ -54,7 +55,7 @@ class ArxivRetriever(BaseRetriever):
         sparse_docs = self._sparse_retriever.invoke(query)[: self.k]
 
         rrf_scores = {}
-        k_constant = 60  # Good baseline
+        k_constant = settings.RETRIEVER_K_CONSTANT
 
         # Add dense retrieval scores. Use content as key
         for rank, doc in enumerate(dense_docs, start=1):

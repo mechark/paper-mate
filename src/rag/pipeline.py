@@ -3,6 +3,7 @@ import logging
 from src.rag.retriever import ArxivRetriever
 from src.rag.llm import get_chain
 from src.rag.reranker import ArxivReranker
+from src.core.config import settings
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,14 +21,16 @@ def create_context(docs) -> str:
     return context
 
 
-def answer_question(question: str, k: int = 4) -> str:
+def answer_question(question: str) -> str:
     """Answer a question using retrieved and reranked documents."""
     # Retrieve more documents than needed for reranking
-    retriever.k = 80
+    retriever.k = settings.RETRIEVER_K_BEFORE_RERANK
     results = retriever.invoke(question)
 
     # Rerank and get top k
-    reranked_results = reranker.rerank_documents(question, results, top_k=k)
+    reranked_results = reranker.rerank_documents(
+        question, results, top_k=settings.RETRIEVER_K_AFTER_RERANK
+    )
 
     context = create_context(reranked_results)
     logging.info(f"Constructed context for LLM: {context}")

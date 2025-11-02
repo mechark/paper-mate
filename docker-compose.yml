@@ -31,6 +31,11 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
       - MODEL_NAME=${MODEL_NAME:-llama3.2:3b}
+      - MODEL_MAX_TOKENS=${MODEL_MAX_TOKENS:-512}
+      - MODEL_TEMPERATURE=${MODEL_TEMPERATURE:-0.7}
+      - RETRIEVER_K_BEFORE_RERANK=${RETRIEVER_K_BEFORE_RERANK:-80}
+      - RETRIEVER_K_AFTER_RERANK=${RETRIEVER_K_AFTER_RERANK:-4}
+      - RETRIEVER_K_CONSTANT=${RETRIEVER_K_CONSTANT:-60}
     depends_on:
       ollama-pull:
         condition: service_completed_successfully
