@@ -24,4 +24,4 @@ docker compose up --build
 
 You can set the language model you want to use via ``MODEL_NAME`` env variable (see other available variables in ``.env.example``). By default the project uses  ``llama3.2:3b`` model.
 
-🎉 Once `<b>`everything is up and running `</b>`, open http://localhost:8000 to checkout the setup!
+🎉 Once <b>everything is up and running</b>, open http://localhost:8000 to checkout the setup!
