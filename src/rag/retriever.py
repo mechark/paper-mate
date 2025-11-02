@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import HuggingFaceDatasetLoader
-from langchain_classic.text_splitter import RecursiveCharacterTextSplitter
+from langchain_classic.text_splitter import SentenceTransformersTokenTextSplitter
 from langchain_community.retrievers import BM25Retriever
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
@@ -35,7 +35,11 @@ class ArxivRetriever(BaseRetriever):
             )
             documents = loader.load()
 
-            splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+            splitter = splitter = SentenceTransformersTokenTextSplitter(
+                model_name="sentence-transformers/all-MiniLM-L6-v2",
+                chunk_size=128,
+                chunk_overlap=20
+            )
             self._documents = splitter.split_documents(documents)
 
             self._vectorstore = FAISS.from_documents(self._documents, embedding)
