@@ -12,6 +12,8 @@ def get_chain():
         model=settings.MODEL_NAME,
         base_url=settings.OLLAMA_BASE_URL,
         validate_model_on_init=True,
+        temperature=0.3,
+        max_tokens=512,
     )
 
     return prompt | llm
