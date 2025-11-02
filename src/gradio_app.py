@@ -1,6 +1,7 @@
 import gradio as gr
 from src.rag.pipeline import answer_question
 
+
 def run_gradio():
     with gr.Blocks(title="PaperMate") as demo:
         gr.Markdown("# 📄 PaperMate — Ask about research papers")

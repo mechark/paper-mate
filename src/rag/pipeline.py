@@ -19,6 +19,7 @@ def create_context(docs) -> str:
         context += f"Year of Publication: {doc.metadata.get('Years', 'Unknown')}\n\n"
     return context
 
+
 def answer_question(question: str, k: int = 4) -> str:
     """Answer a question using retrieved and reranked documents."""
     # Retrieve more documents than needed for reranking
